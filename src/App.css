@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 @theme {
     --color-beige: rgba(255, 240, 240);
     --color-brunette: rgba(31, 0, 17);
@@ -19,7 +20,7 @@
 
 @layer components {
     .bento {
-        background-color: rgba(255, 240, 240, 0.6);
+        background-color: rgba(255, 240, 240, 0.4);
         filter: drop-shadow(0px 8px 16px rgba(31, 0, 17, 0.2));
         backdrop-filter: blur(24px);
         border-radius: 16px;

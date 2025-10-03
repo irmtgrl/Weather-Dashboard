@@ -17,34 +17,44 @@ export function App() {
         console.log(data)
         setWeatherData({
             city: data.name,
+            country: data.sys.country,
             temperature: Math.floor(data.main.temp),
+            description: data.weather[0].description,
             wind: data.wind.speed,
             humidity: data.main.humidity,
             icon: data.weather[0].icon,
         })
+        console.log(weatherData)
     } catch (err) {
        console.log(err)
     }
   }
 
   useEffect(() => {
-      search("Barcelona")
+      search("Istanbul")
   }, [])
 
   return (
-    <main className="px-auto w-1/2 flex justify-center items-center">
-      <div className="inline-grid grid-cols-5 grid-rows-3 2xl:gap-4 xl:gap-2">
+    <main className="flex justify-center items-center">
+      <div className="inline-grid grid-cols-5 grid-rows-3 2xl:w-[800px] 2xl:h-[400px] md:w-[600px] md:[300px] xs:w-[400] xs:h-[250] 2xl:gap-4 xl:gap-2 md:gap-2 sm:gap-2 xs:gap-2">
         <Greeting /> 
-        <Weather />
+        <Weather 
+          temp={weatherData?.temperature ?? "--"}
+          description={weatherData?.description ?? "--"}
+          icon={ weatherData?.icon ?? "--"}
+        />
         <Hourly 
-          temp={weatherData.temperature}
-          name={weatherData.city}
+          temp={weatherData?.temperature ?? "--"}
+          name={weatherData?.city ?? "Loading..."}
+          country={weatherData?.country ?? "--"}
+          description={weatherData?.description ?? "--"}
+          icon={ weatherData?.icon ?? "--"}
         />
         <Wind 
-          wind={weatherData.wind}
+          wind={weatherData?.wind ?? "--"}
         />
         <Humidity
-          humidity={weatherData.humidity}
+          humidity={weatherData?.humidity ?? "--"}
         />
       </div>
     </main>
