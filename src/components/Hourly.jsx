@@ -1,10 +1,14 @@
-export function Hourly({ temp, name, country, description, icon }) {
+export function Hourly({ temp, name, country, description, icon, wind, humidity }) {
     return (
         <div className="bento centered col-start-1 col-span-2 row-start-2 row-span-2">
-            <h2>{ name }, { country }</h2>
             <img src={`https://openweathermap.org/img/wn/${ icon }@2x.png`}/>
-            <h1>{ temp }°C</h1>
-            <p>{ description.toUpperCase() }</p>
+            <h2>{ name }, { country }</h2>
+            <p>{ description }</p>
+            <h1>{ temp }<span className="text-[0.5em]">°C</span></h1>
+            <div className="flex justify-between w-full">
+                <p>Humidity: <span>{ humidity }%</span> </p>
+                <p>Wind: <span>{ wind }km/h</span></p>
+            </div>
         </div>
     )
 }

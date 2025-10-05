@@ -2,8 +2,8 @@ import "./App.css";
 import { Weather } from "./components/Weather";
 import { Greeting } from "./components/Greeting";
 import { Hourly } from "./components/Hourly";
-import { Wind } from "./components/Wind";
-import { Humidity } from "./components/Humidity";
+import { Activity } from "./components/Activity";
+import { Sun } from "./components/Sun";
 import { useEffect, useState } from "react"
 
 export function App() {
@@ -19,10 +19,12 @@ export function App() {
             city: data.name,
             country: data.sys.country,
             temperature: Math.floor(data.main.temp),
-            description: data.weather[0].description,
+            description: data.weather[0].main,
             wind: data.wind.speed,
             humidity: data.main.humidity,
             icon: data.weather[0].icon,
+            sunrise: data.sys.sunrise,
+            sunset: data.sys.sunset,
         })
         console.log(weatherData)
     } catch (err) {
@@ -48,13 +50,17 @@ export function App() {
           name={weatherData?.city ?? "Loading..."}
           country={weatherData?.country ?? "--"}
           description={weatherData?.description ?? "--"}
-          icon={ weatherData?.icon ?? "--"}
+          icon={weatherData?.icon ?? "--"}
+          wind={weatherData?.wind ?? "--"}
+          humidity={weatherData?.humidity ?? "--"}
         />
-        <Wind 
+        <Activity 
+          temp={weatherData?.temperature ?? "--"}
           wind={weatherData?.wind ?? "--"}
         />
-        <Humidity
-          humidity={weatherData?.humidity ?? "--"}
+        <Sun
+          sunrise={weatherData?.sunrise ?? "--"}
+          sunset={weatherData?.sunset ?? "--"}
         />
       </div>
     </main>
