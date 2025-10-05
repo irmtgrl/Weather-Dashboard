@@ -10,7 +10,7 @@ export function Greeting() {
     }
 
     return (
-        <div className="bento flex flex-col row-start-1 row-span-1 col-start-1 col-span-3">
+        <div className="bento flex flex-col justify-center row-start-1 row-span-1 col-start-1 col-span-3">
             <h2>{greeting}</h2>
             <p>Looks like it’s going to be windy today, don’t forget to take your jacket.</p>
         </div>

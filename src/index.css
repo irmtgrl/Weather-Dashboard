@@ -4,7 +4,6 @@
 }
 
 body, #root {
-  /* This might be the issue of grids not working as they should, use fixed values and try again */
   width: 100%;
   height: 100%;
   display: flex;
@@ -15,4 +14,8 @@ body, #root {
 body {
   background-image: url("./assets/gen-img.png");
   background-size: cover;
+}
+
+#root {
+  position: relative;
 }

@@ -4,10 +4,15 @@ import { Greeting } from "./components/Greeting";
 import { Hourly } from "./components/Hourly";
 import { Activity } from "./components/Activity";
 import { Sun } from "./components/Sun";
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
+import { Widget } from "./components/Widget";
 
 export function App() {
   const [ weatherData, setWeatherData ] = useState(null);
+  const [ isHidden, setIsHidden ] = useState(false);
+
+  const inputRef = useRef()
+  const headerEl = useRef()
 
   async function search (city) {
     try {
@@ -28,7 +33,7 @@ export function App() {
         })
         console.log(weatherData)
     } catch (err) {
-       console.log(err)
+       throw new Error(err.message)
     }
   }
 
@@ -36,33 +41,58 @@ export function App() {
       search("Istanbul")
   }, [])
 
+  function handleForm(event) {
+    event.preventDefault()
+    search(inputRef.current.value)
+    setIsHidden(p => !p)
+  }
+
+  function changeCity() {
+    setIsHidden(p => !p)
+  }
+
   return (
-    <main className="flex justify-center items-center">
-      <div className="inline-grid grid-cols-5 grid-rows-3 2xl:w-[800px] 2xl:h-[400px] md:w-[600px] md:[300px] xs:w-[400] xs:h-[250] 2xl:gap-4 xl:gap-2 md:gap-2 sm:gap-2 xs:gap-2">
-        <Greeting /> 
-        <Weather 
-          temp={weatherData?.temperature ?? "--"}
-          description={weatherData?.description ?? "--"}
-          icon={ weatherData?.icon ?? "--"}
-        />
-        <Hourly 
-          temp={weatherData?.temperature ?? "--"}
-          name={weatherData?.city ?? "Loading..."}
-          country={weatherData?.country ?? "--"}
-          description={weatherData?.description ?? "--"}
-          icon={weatherData?.icon ?? "--"}
-          wind={weatherData?.wind ?? "--"}
-          humidity={weatherData?.humidity ?? "--"}
-        />
-        <Activity 
-          temp={weatherData?.temperature ?? "--"}
-          wind={weatherData?.wind ?? "--"}
-        />
-        <Sun
-          sunrise={weatherData?.sunrise ?? "--"}
-          sunset={weatherData?.sunset ?? "--"}
-        />
-      </div>
-    </main>
+    <>
+    {!isHidden && <header ref={headerEl}>
+      <form onSubmit={ handleForm }>
+        <input ref={inputRef} className="bento" type="text" placeholder="Enter city name"></input>
+      </form>
+    </header>}
+
+      {isHidden && <main className="flex justify-center items-center">
+        <div className="inline-grid grid-cols-5 grid-rows-3 2xl:w-[800px] 2xl:h-[400px] md:w-[600px] md:[300px] xs:w-[400] xs:h-[250] 2xl:gap-4 xl:gap-2 md:gap-2 sm:gap-2 xs:gap-2">
+          <Greeting /> 
+          <Weather 
+            temp={weatherData?.temperature ?? "--"}
+            description={weatherData?.description ?? "--"}
+            icon={ weatherData?.icon ?? "--"}
+          />
+          <Hourly 
+            temp={weatherData?.temperature ?? "--"}
+            name={weatherData?.city ?? "Loading..."}
+            country={weatherData?.country ?? "--"}
+            description={weatherData?.description ?? "--"}
+            icon={weatherData?.icon ?? "--"}
+            wind={weatherData?.wind ?? "--"}
+            humidity={weatherData?.humidity ?? "--"}
+          />
+          <Activity 
+            temp={weatherData?.temperature ?? "--"}
+            wind={weatherData?.wind ?? "--"}
+          />
+          <Sun
+            sunrise={weatherData?.sunrise ?? "--"}
+            sunset={weatherData?.sunset ?? "--"}
+          />
+        </div>
+      </main>}
+      
+      {isHidden && <Widget 
+        temp={weatherData?.temperature ?? "--"}
+        name={weatherData?.city ?? "Loading..."}
+        icon={weatherData?.icon ?? "--"}
+        onClick={ () => changeCity() }
+      />}
+    </>
   )
 }
